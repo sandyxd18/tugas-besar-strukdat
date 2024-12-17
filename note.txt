@@ -1,0 +1,38 @@
+Tugas besar struktur data
+
+1. Rencana yang akan dibuat (mengembangkan yang pernah dibuat pada tugas mingguan).
+2. Implementasi:
+- Kelengkapan dari materi struktur data (struct, union, tree, graph(python), dll).
+- ∑ baris.
+- Laporan (ketebalan).
+3. Presentasi.
+
+
+struct buku (judul, pengarang, tahun terbit, kategori, harga)
+struct data pembeli (nama, no telp, password)
+struct transaksi (id transaksi, nama pembeli, tanggal, total)
+union pembayaran buku (cash/kredit)
+antrian (pembeli)
+pencarian buku ((nama pengarang), (judul), (kategori))
+pengurutan berdasarkan tahun (terbaru/terlama)
+pengurutan berdasarkan harga (termurah/termahal)
+linked list (history transaksi pembelian)
+graph (hubungan beberapa pengarang atau kategori)
+stack (ketersediaan buku)
+stack checkout (tambah/hapus pembelian)
+tree (kategori buku)
+
+Root: Buku
+
+    Child: Fiksi
+        Grandchild: Novel
+        Grandchild: Cerpen
+    Child: Non-Fiksi
+        Grandchild: Biografi
+        Grandchild: Sejarah
+
+raenaldi ardiansyah minta akses tugas 3
+
+1. melihat daftar buku -> membeli/preorder buku -> dapat menentukan jumlah buku yang dibeli -> menampilkan total harga sebelum checkout -> menuliskan alamat pengiriman buku -> kembali
+2. melihat history pembelian -> mencetak history pembelian dalam bentuk file txt -> kembali
+3. melihat profile user ->

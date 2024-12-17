@@ -1,0 +1,5 @@
+displayHistory pastiin nampilin semua data:
+- judul buku
+- jumlah yang dibeli
+- metode pembayaran
+- total pembelian

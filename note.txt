@@ -31,8 +31,6 @@ Root: Buku
         Grandchild: Biografi
         Grandchild: Sejarah
 
-raenaldi ardiansyah minta akses tugas 3
-
 1. melihat daftar buku -> membeli/preorder buku -> dapat menentukan jumlah buku yang dibeli -> menampilkan total harga sebelum checkout -> menuliskan alamat pengiriman buku -> kembali
 2. melihat history pembelian -> mencetak history pembelian dalam bentuk file txt -> kembali
 3. melihat profile user ->

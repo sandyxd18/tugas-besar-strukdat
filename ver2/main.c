@@ -107,7 +107,7 @@ void registerUser() {
 
     User new_user;
     printf("Masukkan nama: ");
-    scanf("%s", new_user.nama);
+    scanf("%s", new_user.nama); //ubah dengan fgets
 
     if (is_user_exists(new_user.nama)) {
         printf("Pengguna dengan nama '%s' sudah terdaftar. Silakan gunakan nama lain.\n", new_user.nama);
@@ -117,7 +117,7 @@ void registerUser() {
     printf("Masukkan nomor telepon: ");
     scanf("%s", new_user.no_telp);
     printf("Masukkan password: ");
-    scanf("%s", new_user.password);
+    scanf("%s", new_user.password); //ubah dengan fgets
     strcpy(new_user.role, "pembeli");
 
     user[hitungUser] = new_user;
@@ -130,9 +130,9 @@ void loginUser() {
     char password[100];
 
     printf("Masukkan nama: ");
-    scanf("%s", nama);
+    scanf("%s", nama); //ubah dengan fgets
     printf("Masukkan password: ");
-    scanf("%s", password);
+    scanf("%s", password); //ubah dengan fgets
 
     for (int i = 0; i < hitungUser; i++) {
         if (strcmp(user[i].nama, nama) == 0 && strcmp(user[i].password, password) == 0) {
@@ -175,13 +175,13 @@ void tambahBuku() {
 
     Buku new_buku;
     printf("Masukkan judul: ");
-    scanf("%s", new_buku.judul);
+    scanf("%s", new_buku.judul); //ubah dengan fgets
     printf("Masukkan pengarang: ");
-    scanf("%s", new_buku.pengarang);
+    scanf("%s", new_buku.pengarang); //ubah dengan fgets
     printf("Masukkan tahun terbit: ");
     scanf("%d", &new_buku.tahun_terbit);
     printf("Masukkan kategori: ");
-    scanf("%s", new_buku.kategori);
+    scanf("%s", new_buku.kategori); //ubah dengan fgets
     printf("Masukkan harga: ");
     scanf("%f", &new_buku.harga);
     printf("Masukkan stok: ");
@@ -197,7 +197,7 @@ void tambahBuku() {
 void deleteBuku() {
     char judul[100];
     printf("Masukkan judul buku yang ingin dihapus: ");
-    scanf("%s", judul);
+    scanf("%s", judul); //ubah dengan fgets
 
     for (int i = 0; i < hitungBuku; i++) {
         if (strcmp(buku[i].judul, judul) == 0) {
@@ -216,7 +216,7 @@ void updateStokBuku() {
     char judul[100];
     int jumlah;
     printf("Masukkan judul buku yang ingin diperbarui stoknya: ");
-    scanf("%s", judul);
+    scanf("%s", judul); //ubah dengan fgets
     printf("Masukkan jumlah yang ingin ditambahkan/kurangi (negatif untuk mengurangi): ");
     scanf("%d", &jumlah);
 
@@ -233,7 +233,7 @@ void updateStokBuku() {
 void updateStatusBuku() {
     char judul[100];
     printf("Masukkan judul buku yang ingin diperbarui statusnya: ");
-    scanf("%s", judul);
+    scanf("%s", judul); //ubah dengan fgets
     char status[10];
     printf("Masukkan status baru (ready/preorder): ");
     scanf("%s", status);
@@ -268,12 +268,13 @@ void addToQueue(const char *judul) {
 void beliBuku() {
     char judul[100];
     printf("Masukkan judul buku yang ingin dibeli: ");
-    scanf("%s", judul);
+    scanf("%s", judul); //ubah dengan fgets
 
     for (int i = 0; i < hitungBuku; i++) {
         if (strcmp(buku[i].judul, judul) == 0) {
             if (strcmp(buku[i].status, "preorder") == 0) {
                 addToQueue(judul);
+                printf("Buku dalam status pre-order. Buku dengan judul %s berhasil ditambahkan ke list preorder.\n", judul);
             } else if (buku[i].stok > 0) {
                 buku[i].stok--;
                 printf("Pembelian buku %s berhasil!\n", judul);
@@ -364,6 +365,13 @@ int main() {
 
                 if (pilihan == 1) {
                     displayBuku();
+                    int opsi;
+                    printf("1. Beli buku\n2. Kembali\n3. ");
+                    printf("Pilih opsi: ");
+                    scanf("%d", &opsi);
+                    if (opsi == 1) beliBuku();
+                    else if (opsi == 2) return; //perlu cek lagi
+                    else printf("Pilihan tidak valid.\n");
                 } else if (pilihan == 2) {
                     displayHistory();
                     int opsi;
@@ -372,6 +380,7 @@ int main() {
                     scanf("%d", &opsi);
                     if (opsi == 1) simpanHistory();
                     else if (opsi == 2) return; //perlu cek lagi
+                    else printf("Pilihan tidak valid.\n");
                 } else if (pilihan == 3) {
                     displayProfile();
                 } else if (pilihan == 4) {

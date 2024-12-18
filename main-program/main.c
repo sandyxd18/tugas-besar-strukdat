@@ -109,7 +109,7 @@ void registerUser() {
     printf("Masukkan nama: ");
     scanf("%s", new_user.nama); //ubah dengan fgets
 
-    if (is_user_exists(new_user.nama)) {
+    if (cekUser(new_user.nama)) {
         printf("Pengguna dengan nama '%s' sudah terdaftar. Silakan gunakan nama lain.\n", new_user.nama);
         return;
     }
@@ -127,7 +127,7 @@ void registerUser() {
 
 void loginUser() {
     char nama[100];
-    char password[100];
+    char password[50];
 
     printf("Masukkan nama: ");
     scanf("%s", nama); //ubah dengan fgets

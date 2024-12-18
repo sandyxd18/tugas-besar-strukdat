@@ -58,6 +58,11 @@ void alokasiMemoriAwal() {
         printf("Gagal mengalokasikan memori untuk buku.\n");
         exit(1);
     }
+    user = (User  *)malloc(kapasitasUser  * sizeof(User));
+    if (user == NULL) {
+        printf("Gagal mengalokasikan memori untuk user.\n");
+        exit(1);
+    }
 }
 
 void registerUser() {
@@ -114,6 +119,10 @@ void displayBuku() {
 }
 
 void displayUser() {
+    if (hitungUser == 0) {
+        printf("Belum ada user yang ditambahkan.\n");
+        return;
+    }
     printf("\nDaftar Pengguna Pembeli:\n");
     for (int i = 0; i < hitungUser; i++) {
         if (strcmp(user[i].role, "pembeli") == 0) {

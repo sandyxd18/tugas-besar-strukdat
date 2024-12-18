@@ -12,7 +12,7 @@ typedef struct {
     char kategori[50];
     float harga;
     int stok;
-    float status[10];
+    char status[10];
 } Buku;
 
 Buku *buku = NULL;
@@ -68,8 +68,27 @@ typedef struct {
     int rear;
 } Queue;
 
+void alokasiMemoriAwal() {
+    buku = (Buku *)malloc(kapasitasBuku * sizeof(Buku));
+    if (buku == NULL) {
+        printf("Gagal mengalokasikan memori untuk buku.\n");
+        exit(1);
+    }
+    user = (User  *)malloc(kapasitasUser  * sizeof(User));
+    if (user == NULL) {
+        printf("Gagal mengalokasikan memori untuk user.\n");
+        exit(1);
+    }
+}
+
+void removeNewline(char *str) {
+    size_t len = strlen(str);
+    if (len > 0 && str[len - 1] == '\n') {
+        str[len - 1] = '\0';
+    }
+}
+
 void addAdmin() {
-    user = (User  *)malloc(kapasitasUser * sizeof(User));
     if (user == NULL) {
         printf("Gagal mengalokasikan memori.\n");
         exit(1);
@@ -106,8 +125,10 @@ void registerUser() {
     }
 
     User new_user;
-    printf("Masukkan nama: ");
-    scanf("%s", new_user.nama); //ubah dengan fgets
+    printf("Masukkan username(nama): ");
+    getchar();
+    fgets(new_user.nama, 100, stdin);
+    removeNewline(new_user.nama);
 
     if (cekUser(new_user.nama)) {
         printf("Pengguna dengan nama '%s' sudah terdaftar. Silakan gunakan nama lain.\n", new_user.nama);
@@ -115,9 +136,13 @@ void registerUser() {
     }
 
     printf("Masukkan nomor telepon: ");
-    scanf("%s", new_user.no_telp);
+    fgets(new_user.no_telp, 20, stdin);
+    removeNewline(new_user.no_telp);
+    
     printf("Masukkan password: ");
-    scanf("%s", new_user.password); //ubah dengan fgets
+    fgets(new_user.password, 50, stdin);
+    removeNewline(new_user.password);
+    
     strcpy(new_user.role, "pembeli");
 
     user[hitungUser] = new_user;
@@ -129,14 +154,17 @@ void loginUser() {
     char nama[100];
     char password[50];
 
-    printf("Masukkan nama: ");
-    scanf("%s", nama); //ubah dengan fgets
+    printf("Masukkan username(nama): ");
+    getchar();
+    fgets(nama, 100, stdin);
+    removeNewline(nama);
     printf("Masukkan password: ");
-    scanf("%s", password); //ubah dengan fgets
+    fgets(password, 50, stdin);
+    removeNewline(password);
 
     for (int i = 0; i < hitungUser; i++) {
         if (strcmp(user[i].nama, nama) == 0 && strcmp(user[i].password, password) == 0) {
-            printf("Login berhasil! Selamat datang, %s sebagai %s.\n", user[i].nama, user[i].role);
+            printf("Login berhasil! Selamat datang %s!\n", user[i].nama);
             return;
         }
     }
@@ -153,13 +181,22 @@ void upKapasitasBuku() {
 }
 
 void displayBuku() {
+    if (hitungBuku == 0) {
+        printf("Belum ada buku yang ditambahkan.\n");
+        return;
+    }
+
     printf("\nDaftar Buku:\n");
     for (int i = 0; i < hitungBuku; i++) {
-        printf("Judul: %s, Tahun Terbit: %d, Kategori: %s, Harga: %.2f, Stok: %d, Status: %s\n", buku[i].judul, buku[i].pengarang, buku[i].tahun_terbit, buku[i].kategori, buku[i].harga, buku[i].stok, buku[i].status);
+        printf("Judul: %s, Tahun Terbit: %d, Kategori: %s, Harga: %.2f, Stok: %d, Status: %s\n", buku[i].judul, buku[i].tahun_terbit, buku[i].kategori, buku[i].harga, buku[i].stok, buku[i].status);
     }
 }
 
 void displayUser() {
+    if (hitungUser == 0) {
+        printf("Belum ada user yang ditambahkan.\n");
+        return;
+    }
     printf("\nDaftar Pengguna Pembeli:\n");
     for (int i = 0; i < hitungUser; i++) {
         if (strcmp(user[i].role, "pembeli") == 0) {
@@ -175,19 +212,32 @@ void tambahBuku() {
 
     Buku new_buku;
     printf("Masukkan judul: ");
-    scanf("%s", new_buku.judul); //ubah dengan fgets
+    getchar();
+    fgets(new_buku.judul, 100, stdin);
+    removeNewline(new_buku.judul);
+    
     printf("Masukkan pengarang: ");
-    scanf("%s", new_buku.pengarang); //ubah dengan fgets
+    fgets(new_buku.pengarang, 100, stdin);
+    removeNewline(new_buku.pengarang);
+    
     printf("Masukkan tahun terbit: ");
     scanf("%d", &new_buku.tahun_terbit);
+    
     printf("Masukkan kategori: ");
-    scanf("%s", new_buku.kategori); //ubah dengan fgets
+    getchar();
+    fgets(new_buku.kategori, 50, stdin);
+    removeNewline(new_buku.kategori);
+    
     printf("Masukkan harga: ");
     scanf("%f", &new_buku.harga);
+    
     printf("Masukkan stok: ");
     scanf("%d", &new_buku.stok);
+    
     printf("Masukkan status (ready/preorder): ");
-    scanf("%s", new_buku.status);
+    getchar();
+    fgets(new_buku.status, 10, stdin);
+    removeNewline(new_buku.status);
 
     buku[hitungBuku] = new_buku;
     hitungBuku++;
@@ -197,7 +247,9 @@ void tambahBuku() {
 void deleteBuku() {
     char judul[100];
     printf("Masukkan judul buku yang ingin dihapus: ");
-    scanf("%s", judul); //ubah dengan fgets
+    getchar();
+    fgets(judul, 100, stdin);
+    removeNewline(judul);
 
     for (int i = 0; i < hitungBuku; i++) {
         if (strcmp(buku[i].judul, judul) == 0) {
@@ -216,7 +268,9 @@ void updateStokBuku() {
     char judul[100];
     int jumlah;
     printf("Masukkan judul buku yang ingin diperbarui stoknya: ");
-    scanf("%s", judul); //ubah dengan fgets
+    getchar();
+    fgets(judul, 100, stdin);
+    removeNewline(judul);
     printf("Masukkan jumlah yang ingin ditambahkan/kurangi (negatif untuk mengurangi): ");
     scanf("%d", &jumlah);
 
@@ -233,10 +287,13 @@ void updateStokBuku() {
 void updateStatusBuku() {
     char judul[100];
     printf("Masukkan judul buku yang ingin diperbarui statusnya: ");
-    scanf("%s", judul); //ubah dengan fgets
+    getchar();
+    fgets(judul, 100, stdin);
+    removeNewline(judul);
     char status[10];
     printf("Masukkan status baru (ready/preorder): ");
-    scanf("%s", status);
+    fgets(status, 10, stdin);
+    removeNewline(status);
 
     for (int i = 0; i < hitungBuku; i++) {
         if (strcmp(buku[i].judul, judul) == 0) {
@@ -268,7 +325,9 @@ void addToQueue(const char *judul) {
 void beliBuku() {
     char judul[100];
     printf("Masukkan judul buku yang ingin dibeli: ");
-    scanf("%s", judul); //ubah dengan fgets
+    getchar();
+    fgets(judul, 100, stdin);
+    removeNewline(judul);
 
     for (int i = 0; i < hitungBuku; i++) {
         if (strcmp(buku[i].judul, judul) == 0) {
@@ -330,6 +389,7 @@ void freeMem() {
 int main() {
     int pilihan;
 
+    alokasiMemoriAwal();
     addAdmin();
 
     while (1) {
@@ -341,52 +401,93 @@ int main() {
             registerUser();
         } else if (pilihan == 2) {
             loginUser();
-            if (strcmp(user[hitungUser - 1].role, "admin") == 0) {
-                printf("\nMenu Admin:\n");
-                printf("1. Lihat Daftar Buku\n2. Tambah Buku\n3. Hapus Buku\n4. Update Stok\n5. Update Status Buku\n6. Lihat Antrian Preorder\n7. Tambah User Pembeli\n8. List User Pembeli\n9. Logout\n");
-                printf("Pilih opsi: ");
-                scanf("%d", &pilihan);
-
-                if (pilihan == 1) displayBuku();
-                else if (pilihan == 2) tambahBuku();
-                else if (pilihan == 3) deleteBuku();
-                else if (pilihan == 4) updateStokBuku();
-                else if (pilihan == 5) updateStatusBuku();
-                else if (pilihan == 6) displayQueue();
-                else if (pilihan == 7) registerUser();
-                else if (pilihan == 8) displayUser();
-                else if (pilihan == 9) break;
-                else printf("Pilihan tidak valid.\n");
-            } else {
-                printf("\nDaftar Toko Buku Digital:\n");
-                printf("1. Lihat Daftar Buku\n2. Lihat Riwayat Pembelian\n3. Lihat Profil\n4. Logout\n");
-                printf("Pilih opsi: ");
-                scanf("%d", &pilihan);
-
-                if (pilihan == 1) {
-                    displayBuku();
-                    int opsi;
-                    printf("1. Beli buku\n2. Kembali\n3. ");
+            if (strcmp(user[hitungUser - 1].role, "admin") == 0)
+            {
+                while (1)
+                {
+                    printf("\nMenu Admin:\n");
+                    printf("1. Lihat Daftar Buku\n2. Tambah Buku\n3. Hapus Buku\n4. Update Stok\n5. Update Status Buku\n6. Lihat Antrian Preorder\n7. Tambah User Pembeli\n8. List User Pembeli\n9. Logout\n");
                     printf("Pilih opsi: ");
-                    scanf("%d", &opsi);
-                    if (opsi == 1) beliBuku();
-                    else if (opsi == 2) return; //perlu cek lagi
-                    else printf("Pilihan tidak valid.\n");
-                } else if (pilihan == 2) {
-                    displayHistory();
-                    int opsi;
-                    printf("1. Print History Pembelian\n2. Kembali\n");
+                    scanf("%d", &pilihan);
+
+                    if (pilihan == 1)
+                        displayBuku();
+                    else if (pilihan == 2)
+                        tambahBuku();
+                    else if (pilihan == 3)
+                        deleteBuku();
+                    else if (pilihan == 4)
+                        updateStokBuku();
+                    else if (pilihan == 5)
+                        updateStatusBuku();
+                    else if (pilihan == 6)
+                        displayQueue();
+                    else if (pilihan == 7)
+                        registerUser();
+                    else if (pilihan == 8)
+                        displayUser();
+                    else if (pilihan == 9)
+                    {
+                        userSaatIni == NULL;
+                        break;
+                    }
+                    else
+                        printf("Pilihan tidak valid.\n");
+                }
+            }
+            else
+            {
+                while (1)
+                {
+                    printf("\nDaftar Toko Buku Digital:\n");
+                    printf("1. Lihat Daftar Buku\n2. Lihat Riwayat Pembelian\n3. Lihat Profil\n4. Logout\n");
                     printf("Pilih opsi: ");
-                    scanf("%d", &opsi);
-                    if (opsi == 1) simpanHistory();
-                    else if (opsi == 2) return; //perlu cek lagi
-                    else printf("Pilihan tidak valid.\n");
-                } else if (pilihan == 3) {
-                    displayProfile();
-                } else if (pilihan == 4) {
-                    break;
-                } else {
-                    printf("Pilihan tidak valid.\n");
+                    scanf("%d", &pilihan);
+
+                    if (pilihan == 1)
+                    {
+                        while (1)
+                        {
+                            displayBuku();
+                            int opsi;
+                            printf("1. Beli buku\n2. Kembali\n");
+                            printf("Pilih opsi: ");
+                            scanf("%d", &opsi);
+                            if (opsi == 1)
+                                beliBuku();
+                            else if (opsi == 2)
+                                break;
+                            else
+                                printf("Pilihan tidak valid.\n");
+                        }
+                    }
+                    else if (pilihan == 2)
+                    {
+                        displayHistory();
+                        int opsi;
+                        printf("1. Print History Pembelian\n2. Kembali\n");
+                        printf("Pilih opsi: ");
+                        scanf("%d", &opsi);
+                        if (opsi == 1)
+                            simpanHistory();
+                        else if (opsi == 2)
+                            continue;
+                        else
+                            printf("Pilihan tidak valid.\n");
+                    }
+                    else if (pilihan == 3)
+                    {
+                        displayProfile();
+                    }
+                    else if (pilihan == 4)
+                    {
+                        userSaatIni == NULL;
+                        break;
+                    }
+                    else
+                    {
+                        printf("Pilihan tidak valid.\n");
+                    }
                 }
             }
         } else if (pilihan == 3) {

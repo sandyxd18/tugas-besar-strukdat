@@ -629,17 +629,14 @@ void updateStatusBuku()
     {
         if (strcmp(buku[i].judul, judul) == 0)
         {
-            // Cek perubahan status
             if (strcmp(buku[i].status, "ready") == 0 && strcmp(status, "preorder") == 0)
             {
-                // Jika status berubah dari "ready" ke "preorder"
-                buku[i].stok = 0; // Set stok menjadi 0
+                buku[i].stok = 0;
                 printf("Status buku %s berhasil diperbarui menjadi 'preorder'. Stok diatur menjadi 0.\n", judul);
                 strcpy(buku[i].status, status);
             }
             else if (strcmp(buku[i].status, "preorder") == 0 && strcmp(status, "ready") == 0)
             {
-                // Jika status berubah dari "preorder" ke "ready"
                 int stokBaru;
                 printf("Masukkan stok untuk buku %s: ", judul);
                 scanf("%d", &stokBaru);
@@ -652,30 +649,27 @@ void updateStatusBuku()
 
                 if (buku[i].jumlahAntrian > stokBaru)
                 {
-                    // Jika stok tidak cukup untuk memenuhi semua antrian
-                    buku[i].jumlahAntrian -= stokBaru;  // Kurangi jumlah antrian
-                    buku[i].stok = 0;                   // Stok diatur menjadi 0
-                    strcpy(buku[i].status, "preorder"); // Tetap preorder
+                    buku[i].jumlahAntrian -= stokBaru;  
+                    buku[i].stok = 0;                   
+                    strcpy(buku[i].status, "preorder");
                     printf("Jumlah antrian untuk buku %s dikurangi menjadi %d. Status tetap 'preorder'. Stok diatur menjadi 0.\n",
                            judul, buku[i].jumlahAntrian);
                 }
                 else
                 {
-                    // Jika stok cukup untuk memenuhi semua antrian
-                    stokBaru -= buku[i].jumlahAntrian; // Kurangi stok dengan jumlah antrian
-                    buku[i].jumlahAntrian = 0;         // Reset jumlah antrian
-                    buku[i].stok = stokBaru;           // Update stok
-                    strcpy(buku[i].status, "ready");   // Ubah status ke ready
+                    stokBaru -= buku[i].jumlahAntrian; 
+                    buku[i].jumlahAntrian = 0;         
+                    buku[i].stok = stokBaru;           
+                    strcpy(buku[i].status, "ready");   
                     printf("Semua antrian terpenuhi. Status buku %s berhasil diperbarui menjadi 'ready'. Stok sekarang: %d\n",
                            judul, stokBaru);
                 }
             }
             else
             {
-                // Jika status tidak berubah
                 printf("Status buku %s tidak berubah. Status saat ini: '%s'.\n", judul, buku[i].status);
             }
-            displayQueue(judul); // Tampilkan antrian setelah update status
+            displayQueue(judul); 
             return;
         }
     }
@@ -707,7 +701,7 @@ Transaksi popRefund()
     if (isRefundStackEmpty())
     {
         printf("Stack refund kosong. Tidak ada transaksi untuk di-refund.\n");
-        Transaksi emptyTransaksi = {0}; // Return empty transaction
+        Transaksi emptyTransaksi = {0};
         return emptyTransaksi;
     }
     return refundStack[topStack--];
@@ -736,7 +730,7 @@ void refund(Transaksi history[], int hitungTransaksi)
             {
                 if (strcmp(buku[j].judul, transaksi.judul) == 0)
                 {
-                    buku[j].stok += transaksi.jumlah; // Kembalikan stok buku
+                    buku[j].stok += transaksi.jumlah;
                     printf("Refund berhasil untuk buku %s. Stok sekarang: %d\n", transaksi.judul, buku[j].stok);
                     return;
                 }
@@ -984,24 +978,6 @@ void displayGraph()
         printf("Gagal menjalankan script Python.\n");
     }
 }
-
-// void displayTransaksiList()
-// {
-//     if (head == NULL)
-//     {
-//         printf("Belum ada transaksi yang dibuat.\n");
-//         return;
-//     }
-
-//     Node *temp = head;
-//     printf("\nRiwayat Pembelian (Linked List):\n");
-//     while (temp != NULL)
-//     {
-//         printf("===================\nID: %d\nJudul: %s\nJumlah: %d\nMetode Pembayaran: %s\nTotal: %.2f\n===================\n",
-//                temp->transaksi.id_transaksi, temp->transaksi.judul, temp->transaksi.jumlah, temp->transaksi.metode, temp->transaksi.total);
-//         temp = temp->next;
-//     }
-// }
 
 void displayTransaksiList()
 {

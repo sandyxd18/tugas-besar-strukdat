@@ -40,9 +40,20 @@ def tampilkan_graf(G):
     plt.title("Graf Transaksi")
     plt.show()
 
+# Membuat graf agar tersambung garis
+def buat_graf_tersambung(transaksi):
+    G = buat_graf(transaksi)
+
+    nodes = list(G.nodes)
+    for i in range(len(nodes) - 1):
+        if not G.has_edge(nodes[i], nodes[i + 1]):
+            G.add_edge(nodes[i], nodes[i + 1])
+        
+    return G
+
 # Main
 if __name__ == "__main__":
-    file_path = "history.txt"
+    file_path = "graph-data.txt"
     transaksi = baca_transaksi(file_path)
-    G = buat_graf(transaksi)
+    G = buat_graf_tersambung(transaksi)
     tampilkan_graf(G)

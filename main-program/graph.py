@@ -13,25 +13,20 @@ def baca_transaksi(file_path):
             })
     return transaksi
 
-# Membuat graf
 def buat_graf(transaksi):
     G = nx.Graph()
 
-    # Menambahkan node
     for t in transaksi:
         G.add_node(t["id_transaksi"], label=t["judul_buku"])
 
-    # Menambahkan edge berdasarkan aturan (contoh: metode pembayaran atau judul buku yang sama)
     for i in range(len(transaksi)):
         for j in range(i + 1, len(transaksi)):
-            # Hubungkan node jika metode pembayaran sama atau judul buku sama
             if (transaksi[i]["metode"] == transaksi[j]["metode"] or
                 transaksi[i]["judul_buku"] == transaksi[j]["judul_buku"]):
                 G.add_edge(transaksi[i]["id_transaksi"], transaksi[j]["id_transaksi"])
 
     return G
 
-# Menampilkan graf
 def tampilkan_graf(G):
     pos = nx.spring_layout(G)
     labels = nx.get_node_attributes(G, 'label')
@@ -40,7 +35,6 @@ def tampilkan_graf(G):
     plt.title("Graf Transaksi")
     plt.show()
 
-# Membuat graf agar tersambung garis
 def buat_graf_tersambung(transaksi):
     G = buat_graf(transaksi)
 
@@ -51,7 +45,6 @@ def buat_graf_tersambung(transaksi):
         
     return G
 
-# Main
 if __name__ == "__main__":
     file_path = "graph-data.txt"
     transaksi = baca_transaksi(file_path)
